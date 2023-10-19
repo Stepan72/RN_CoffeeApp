@@ -5,14 +5,19 @@ import {
   SafeAreaView,
   TextInput,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { MapPinIcon } from "react-native-heroicons/solid";
 import { BellIcon, MagnifyingGlassIcon } from "react-native-heroicons/outline";
-
+import { categories, coffeeItems } from "../constants";
 import { themeColors } from "../theme";
+import Carousel from "react-native-snap-carousel";
+import CoffeeCard from "../components/CoffeeCard";
 
 export default function HomeScreen() {
+  const [activeCategory, setActiveCategory] = useState<number>(1);
+
   return (
     <View className="flex-1 relative bg-white">
       <Image
@@ -48,7 +53,54 @@ export default function HomeScreen() {
             </TouchableOpacity>
           </View>
         </View>
-        {/* categories */}
+        {/* categories 5:43 */}
+        <View className="px-5 mt-6">
+          <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={categories}
+            keyExtractor={(item) => item.id.toString()}
+            className="overflow-visible"
+            renderItem={({ item: { title, id } }) => {
+              const isActive = id === activeCategory;
+              const activeCategoryStyle = isActive
+                ? "text-white"
+                : "text-gray-700";
+
+              return (
+                <TouchableOpacity
+                  onPress={() => setActiveCategory(id)}
+                  style={{
+                    backgroundColor: isActive
+                      ? themeColors.bgLight
+                      : "rgba(0,0,0,0.07)",
+                  }}
+                  className="p-4 px-5 rounded-full mr-2 shadow-sm"
+                >
+                  <Text className={`font-semibold ${activeCategoryStyle}`}>
+                    {title}
+                  </Text>
+                </TouchableOpacity>
+              );
+            }}
+          />
+        </View>
+        {/* coffee cards */}
+        <View className="mt-16 py-2">
+          <Carousel
+            containerCustomStyle={{ overflow: "visible" }}
+            data={coffeeItems}
+            renderItem={({ item }) => {
+              return <CoffeeCard {...item} />;
+            }}
+            firstItem={1}
+            inactiveSlideOpacity={0.75}
+            inactiveSlideScale={0.75}
+            sliderWidth={400}
+            itemWidth={260}
+            slideStyle={{ display: "flex", alignItems: "center" }}
+          />
+        </View>
       </SafeAreaView>
     </View>
   );
