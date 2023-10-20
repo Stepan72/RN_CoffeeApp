@@ -1,8 +1,13 @@
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
-import { CofeeItemProps } from "../types";
+import { CofeeItemProps, StackParamList } from "../types";
 import { themeColors } from "../theme";
-import { StarIcon } from "react-native-heroicons/solid";
+import { PlusIcon, StarIcon } from "react-native-heroicons/solid";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
+type Props = NativeStackScreenProps<StackParamList, "Product">;
+type ProductNavigationProp = Props["navigation"];
 
 export default function CoffeeCard({
   id,
@@ -13,6 +18,8 @@ export default function CoffeeCard({
   image,
   desc,
 }: CofeeItemProps) {
+  const navigation = useNavigation<ProductNavigationProp>();
+
   return (
     <View
       style={{
@@ -31,7 +38,7 @@ export default function CoffeeCard({
         }}
         className="flex-row justify-center -mt-14"
       >
-        <Image source={image} className="h-40 w-40" />
+        <Image source={image} className="h-40 w-40 z-20" />
       </View>
       <View className="px-5 mt-5 space-y-3">
         <Text className="text-white text-3xl font-semibold z-10">{name}</Text>
@@ -48,9 +55,39 @@ export default function CoffeeCard({
           </Text>
           <Text className="text-base text-white font-semibold ">{volume}</Text>
         </View>
-        <View>
+        <View
+          style={{
+            backgroundColor: themeColors.bgDark,
+            shadowColor: themeColors.bgDark,
+            shadowOffset: { width: 0, height: 40 },
+            shadowRadius: 25,
+            shadowOpacity: 0.8,
+          }}
+          className="flex-row justify-between items-center"
+        >
           <Text className="text-white font-bold text-lg">${price}</Text>
-          <Text>16.43</Text>
+          <TouchableOpacity
+            className="p-4 bg-white rounded-full"
+            style={{
+              shadowColor: "black",
+              shadowOffset: { width: -20, height: -10 },
+              shadowRadius: 40,
+              shadowOpacity: 1,
+            }}
+            onPress={() => {
+              navigation.navigate("Product", {
+                id,
+                name,
+                price,
+                volume,
+                stars,
+                image,
+                desc,
+              });
+            }}
+          >
+            <PlusIcon size={25} strokeWidth={2} color={themeColors.bgDark} />
+          </TouchableOpacity>
         </View>
       </View>
     </View>

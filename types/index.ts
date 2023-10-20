@@ -2,7 +2,7 @@ import { ImageProps } from "react-native";
 
 export type StackParamList = {
   Home: undefined;
-  Second: undefined;
+  Product: CofeeItemProps;
 };
 
 export interface CofeeItemProps {
@@ -14,3 +14,9 @@ export interface CofeeItemProps {
   image: ImageProps;
   desc: string;
 }
+
+export type TabParamList = {
+  First: undefined;
+  Second: undefined;
+  Third: undefined;
+};

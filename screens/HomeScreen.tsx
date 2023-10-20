@@ -53,7 +53,7 @@ export default function HomeScreen() {
             </TouchableOpacity>
           </View>
         </View>
-        {/* categories 5:43 */}
+        {/* categories */}
         <View className="px-5 mt-6">
           <FlatList
             horizontal
@@ -90,10 +90,11 @@ export default function HomeScreen() {
           <Carousel
             containerCustomStyle={{ overflow: "visible" }}
             data={coffeeItems}
+            loop={true}
             renderItem={({ item }) => {
               return <CoffeeCard {...item} />;
             }}
-            firstItem={1}
+            firstItem={0}
             inactiveSlideOpacity={0.75}
             inactiveSlideScale={0.75}
             sliderWidth={400}
