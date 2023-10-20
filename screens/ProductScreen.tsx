@@ -44,7 +44,7 @@ export default function ProductScreen({
         }}
         className="w-full absolute "
       />
-      <SafeAreaView className="space-y-4">
+      <SafeAreaView className="space-y-3">
         {/* headerBar */}
         <View className="mx-4 flex-row justify-between items-center">
           <TouchableOpacity
